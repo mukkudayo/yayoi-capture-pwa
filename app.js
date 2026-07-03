@@ -100,6 +100,30 @@ function setStatus(message, level) {
   statusBar.className = level || "";
 }
 
+/** video要素に取得済みのカメラ映像を（再）表示する。iOS Safariはdisplay:noneで
+ * 非表示にした<video>の再生を止めてしまうことがあり、単にsrcObjectを設定するだけでは
+ * 再表示後に映像が固まったまま（黒画面）になる場合があるため、明示的にplay()を呼ぶ。
+ * さらに映像トラック自体が終了してしまっている場合（iOSがバックグラウンド化等で
+ * カメラを強制解放した場合）は、カメラを取得し直す。
+ */
+function resumeVideoPlayback() {
+  const stream = video.srcObject;
+  const tracks = stream ? stream.getVideoTracks() : [];
+  const hasLiveTrack = tracks.some((t) => t.readyState === "live");
+
+  if (!hasLiveTrack) {
+    startCamera();
+    return;
+  }
+
+  const playPromise = video.play();
+  if (playPromise && typeof playPromise.catch === "function") {
+    playPromise.catch(() => {
+      // 自動再生ポリシーで拒否された場合は無視する（ユーザー操作後の再開時は通常発生しない）
+    });
+  }
+}
+
 async function startCamera() {
   try {
     const stream = await navigator.mediaDevices.getUserMedia({
@@ -107,6 +131,10 @@ async function startCamera() {
       audio: false,
     });
     video.srcObject = stream;
+    const playPromise = video.play();
+    if (playPromise && typeof playPromise.catch === "function") {
+      playPromise.catch(() => {});
+    }
     setStatus("書類全体が画面に収まるように撮影してください", "");
   } catch (err) {
     setStatus("カメラを起動できませんでした: " + err.message, "error");
@@ -123,6 +151,7 @@ function showCameraView() {
   sendButton.classList.add("hidden");
   batchDoneButton.classList.add("hidden");
   processedBlob = null;
+  resumeVideoPlayback();
 }
 
 function showPreviewView() {
