@@ -84,6 +84,17 @@ const openCvCheckInterval = setInterval(() => {
   }
 }, 200);
 
+// opencv.js（約10MB）を非同期に読み込む。<script>タグで同期読み込みすると、
+// 回線が遅い場合に本体（カメラ起動等）の実行自体がブロックされてしまうため、
+// 動的にscript要素を挿入して裏で読み込ませる（openCvReady判定は上のインターバルが行う）。
+const opencvScript = document.createElement("script");
+opencvScript.src = "/opencv.js";
+opencvScript.async = true;
+opencvScript.onerror = () => {
+  setStatus("画像補正エンジンの読み込みに失敗しました。通信環境をご確認のうえページを再読み込みしてください。", "error");
+};
+document.head.appendChild(opencvScript);
+
 function setStatus(message, level) {
   statusBar.textContent = message;
   statusBar.className = level || "";

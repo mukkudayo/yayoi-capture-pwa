@@ -124,7 +124,8 @@
 
 </div>
 
-<script src="/opencv.js"></script>
+<!-- opencv.js（約10MB）はapp.js側で非同期に読み込む（同期scriptタグにすると、
+     読み込みが遅い回線でカメラ起動自体がブロックされてしまうため）。 -->
 <script src="/app.js"></script>
 </body>
 </html>
