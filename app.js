@@ -88,7 +88,7 @@ const openCvCheckInterval = setInterval(() => {
 // 回線が遅い場合に本体（カメラ起動等）の実行自体がブロックされてしまうため、
 // 動的にscript要素を挿入して裏で読み込ませる（openCvReady判定は上のインターバルが行う）。
 const opencvScript = document.createElement("script");
-opencvScript.src = "/opencv.js";
+opencvScript.src = "opencv.js";
 opencvScript.async = true;
 opencvScript.onerror = () => {
   setStatus("画像補正エンジンの読み込みに失敗しました。通信環境をご確認のうえページを再読み込みしてください。", "error");
@@ -546,7 +546,7 @@ batchDoneButton.addEventListener("click", () => {
 });
 
 if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("/sw.js").catch(() => {});
+  navigator.serviceWorker.register("sw.js").catch(() => {});
 }
 
 startCamera();

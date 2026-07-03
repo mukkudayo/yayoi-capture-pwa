@@ -4,15 +4,15 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>弥生給与取り込みアプリ - 撮影アシスト</title>
-<link rel="manifest" href="/manifest.json" />
+<link rel="manifest" href="manifest.json" />
 <meta name="theme-color" content="#1f6feb" />
 
 <!-- iOS Safari「ホーム画面に追加」対応: manifest.json だけでは反映されないため個別指定する -->
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 <meta name="apple-mobile-web-app-title" content="弥生取込" />
-<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-<link rel="icon" href="/icon.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="apple-touch-icon.png" />
+<link rel="icon" href="icon.svg" type="image/svg+xml" />
 <style>
   :root { color-scheme: dark; }
   * { box-sizing: border-box; }
@@ -126,6 +126,6 @@
 
 <!-- opencv.js（約10MB）はapp.js側で非同期に読み込む（同期scriptタグにすると、
      読み込みが遅い回線でカメラ起動自体がブロックされてしまうため）。 -->
-<script src="/app.js"></script>
+<script src="app.js"></script>
 </body>
 </html>

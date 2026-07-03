@@ -1,14 +1,16 @@
 // アプリシェルのみをキャッシュするシンプルなService Worker。
 // /api/upload はキャッシュ対象外（常にネットワーク経由）。
-const CACHE_NAME = "yayoi-capture-shell-v6";
+// GitHub Pagesのようなサブパス配下（/reponame/）でも動くよう、Service Worker自身の
+// スコープ（self.registration.scope）からの相対パスでキャッシュ対象を解決する。
+const CACHE_NAME = "yayoi-capture-shell-v7";
 const APP_SHELL = [
-  "/",
-  "/app.js",
-  "/manifest.json",
-  "/icon.svg",
-  "/apple-touch-icon.png",
-  "/icon-192.png",
-  "/icon-512.png",
+  "./",
+  "./app.js",
+  "./manifest.json",
+  "./icon.svg",
+  "./apple-touch-icon.png",
+  "./icon-192.png",
+  "./icon-512.png",
 ];
 
 self.addEventListener("install", (event) => {
